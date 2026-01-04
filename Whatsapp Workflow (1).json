@@ -1,0 +1,415 @@
+{
+  "name": "Whatsapp Workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "f01718b9-125d-4a1e-8fe1-fdeac287214b",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        512,
+        -128
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/14E4obDozRzb-YMa0075vx1t2VLZxxUBVR8uAzj40naI/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14E4obDozRzb-YMa0075vx1t2VLZxxUBVR8uAzj40naI/edit#gid=0"
+        },
+        "combineFilters": "AND",
+        "options": {}
+      },
+      "id": "1994b766-a94d-4c87-a903-edc46ecdf30e",
+      "name": "Listar Contatos",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        800,
+        -96
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFMUyOzJt8ZFdeEb",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.STATUS }}",
+              "value2": "Não enviado"
+            }
+          ]
+        }
+      },
+      "id": "cdb7a647-c2ed-414f-a569-50040f90e213",
+      "name": "Verificar Status",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        -128
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "66cd23e0-1486-4cf9-94c7-6950d0777262",
+      "name": "Loop 1 por 1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [
+        1328,
+        -128
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## execução manual \n",
+        "height": 352
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        464,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "5df352f9-9da2-4b24-8d52-30a362819e26",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Leitura dos contatos \n\n",
+        "height": 320,
+        "width": 192
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        736,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "93b88a7f-b181-4019-9d5f-e4d0248fa010",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## verificação de status \n\n",
+        "height": 352
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        960,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "47943867-a116-446f-af28-46760b03052d",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        32
+      ],
+      "id": "1fc8ebd3-ed85-465b-ab22-a1a21da81705",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "content": "## Processamento individual \n",
+        "height": 368
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1248,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "4fcc31b4-7ed0-4ab2-a011-8f0ab4e01063",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Enviar mensagem \n",
+        "height": 384
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1552,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "68f711e7-1a37-4a6e-b9e8-82bd0e5705a0",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "Workflow Whastapp",
+        "remoteJid": "=55{{ $node[\"Listar Contatos\"].json[\"TELEFONE\"] }}",
+        "messageText": "=Olá! Tudo bem?\n\nMe chamo Paloma e estou levando para a Grande São Paulo a Diniz Foods, uma empresa de Food Service com mais de 30 anos de mercado, que atende mais de 16 mil estabelecimentos por mês.\n\nTrabalhamos com tudo para sorveterias e padarias:\n🍦 bases, ligas, estabilizantes, saborizantes\n🍫 recheios, caldas, chocolates e coberturas\n🧁 ingredientes do básico ao premium (açúcar, leite em pó, polpas, confeitos e muito mais)\n\n📦 Um mix completo para você comprar tudo em um só fornecedor, com qualidade e ótimo custo-benefício.\n\n\n🚚 Trabalhamos com entrega em até 1 DIA ÚTIL para a Grande São Paulo!\n\nSe quiser, posso te ajudar a montar um pedido ideal para o seu negócio  ou até agendar uma visita presencial sem compromisso para que possa nós conhecer. \nIrei enviar nosso catálogo.\n\nMe conta: qual é o principal produto que você vende hoje?",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        -112
+      ],
+      "id": "07eb98d0-227f-4a94-9106-1d603814896e",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "wnaOjoaOwVua4WBJ",
+          "name": "evolution_cloudfy"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "395375ef-3e08-44a7-ac95-522b4965dbe8",
+              "name": "TELEFONE",
+              "value": "=",
+              "type": "string"
+            },
+            {
+              "id": "c978d78d-46a1-4c9c-b7d5-cf523266f54b",
+              "name": "Mensagem",
+              "value": "=Olá! Tudo bem?\n\nMe chamo Paloma e estou levando para a Grande São Paulo a Diniz Foods, uma empresa de Food Service com mais de 30 anos de mercado, que atende mais de 16 mil estabelecimentos por mês.\n\nTrabalhamos com tudo para sorveterias e padarias:\n🍦 bases, ligas, estabilizantes, saborizantes\n🍫 recheios, caldas, chocolates e coberturas\n🧁 ingredientes do básico ao premium (açúcar, leite em pó, polpas, confeitos e muito mais)\n\n📦 Um mix completo para você comprar tudo em um só fornecedor, com qualidade e ótimo custo-benefício.\n\n\n🚚 Trabalhamos com entrega em até 1 DIA ÚTIL para a Grande São Paulo!\n\nSe quiser, posso te ajudar a montar um pedido ideal para o seu negócio  ou até agendar uma visita presencial sem compromisso para que possa nós conhecer. \nIrei enviar nosso catálogo.\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1472,
+        -624
+      ],
+      "id": "618f4c38-b4fe-4794-8993-191a10f9344b",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/14E4obDozRzb-YMa0075vx1t2VLZxxUBVR8uAzj40naI/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14E4obDozRzb-YMa0075vx1t2VLZxxUBVR8uAzj40naI/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "TELEFONE": "={{ $node[\"Listar Contatos\"].json[\"TELEFONE\"] }}",
+            "STATUS": "Enviado"
+          },
+          "matchingColumns": [
+            "TELEFONE"
+          ],
+          "schema": [
+            {
+              "id": "NOME",
+              "displayName": "NOME",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "TELEFONE",
+              "displayName": "TELEFONE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "STATUS",
+              "displayName": "STATUS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "RAMO",
+              "displayName": "RAMO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1872,
+        -112
+      ],
+      "id": "568a4259-2271-4e5e-8111-c6472b85c859",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dFMUyOzJt8ZFdeEb",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 5,
+        "unit": "minutes"
+      },
+      "id": "cd5d1046-9734-4d62-a0c2-5d453554b33c",
+      "name": "Espera Anti-Ban1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        2112,
+        -112
+      ],
+      "webhookId": "c414328d-48cc-4ef9-aceb-d873ddae4a00"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Listar Contatos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listar Contatos": {
+      "main": [
+        [
+          {
+            "node": "Verificar Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verificar Status": {
+      "main": [
+        [
+          {
+            "node": "Loop 1 por 1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop 1 por 1": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar texto": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Espera Anti-Ban1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Espera Anti-Ban1": {
+      "main": [
+        [
+          {
+            "node": "Loop 1 por 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "966dcdab-6873-4416-abad-e01447ae3ea8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b6ddfa35b7de44fc29018bfa3653b9761bfc0458251c3668630532a2fad2303b"
+  },
+  "id": "9oEfig0J2OhyFhHe",
+  "tags": []
+}
